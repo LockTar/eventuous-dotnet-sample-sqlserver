@@ -7,16 +7,27 @@ This projects shows some of the features of Eventuous:
 - Read models in SQL Server
 - Integration between services using messaging (RabbitMQ)
 
+## Prerequisites
+
+- Create a new SQL Server database `Bookings` and run the script `Create-Tables.sql` to create the necessary tables for the projections.
+
 ## Usage
 
-Start the infrastructure using Docker Compose from the repository root:
+- Open the `app.http` file in Visual Studio and execute the commands to interact with the API.
+- You can also use SwaggerUI to interact with the API.
+- Create a booking by executing the `booking/book` api.
+- Record a payment by executing the `booking/recordPayment` api.
+- Get the booking state by executing the `bookings` api.
+- Get the booking projection by executing the `projections/sql/bookings` api.
+
+<!-- Start the infrastructure using Docker Compose from the repository root:
 
 ```bash
 docker compose up
 ```
 
 Run both `Bookings` and `Bookings.Payments` projects and then open `http://localhost:5051/swagger/index.html` and `http://localhost:5000/swagger/index.html` respectively.
-Here you can use SwaggerUI to initiate commands that will result in events being raised.
+Here you can use SwaggerUI to initiate commands that will result in events being raised. -->
 
 ### Example commands
 
