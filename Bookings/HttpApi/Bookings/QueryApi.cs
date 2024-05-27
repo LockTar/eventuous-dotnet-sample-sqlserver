@@ -30,21 +30,26 @@ public class QueryApi : ControllerBase {
 public class ProjectionsQueryApi : ControllerBase
 {
     private readonly IAggregateStore _store;
-    private readonly SubscriptionConnectionInfo _connectionInfo;
+    private readonly string _connectionString;
     private readonly SubscriptionSchemaInfo _schemaInfo;
 
-    public ProjectionsQueryApi(IAggregateStore store, SubscriptionConnectionInfo connectionInfo, SubscriptionSchemaInfo schemaInfo)
+    public ProjectionsQueryApi(IAggregateStore store, SubscriptionOptions subscriptionOptions, SubscriptionSchemaInfo schemaInfo)
     {
         _store = store;
-        _connectionInfo = connectionInfo;
         _schemaInfo = schemaInfo;
+
+        if (subscriptionOptions.ConnectionString is null)
+        {
+            throw new ArgumentNullException(nameof(subscriptionOptions.ConnectionString));
+        }
+        _connectionString = subscriptionOptions.ConnectionString;
     }
 
     [HttpGet]
     [Route("{id}")]
     public async Task<IActionResult> GetBooking(string id, CancellationToken cancellationToken)
     {
-        await using var connection = await ConnectionFactory.GetConnection(_connectionInfo.ConnectionString, cancellationToken);
+        await using var connection = await ConnectionFactory.GetConnection(_connectionString, cancellationToken);
         
         var cmd = connection.CreateCommand();
         cmd.CommandText = $"SELECT * FROM {_schemaInfo.Schema}.bookings WHERE id = @booking_id;";

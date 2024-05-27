@@ -34,7 +34,7 @@ public static class Registrations
         bool? initializeDatabase = configuration.GetValue<bool?>("SqlServer:InitializeDatabase");
         string? aggregateStoreSchema = configuration.GetValue<string>("SqlServer:Schema:AggregateStore");
         string? subscriptionsSchema = configuration.GetValue<string>("SqlServer:Schema:Subscriptions");
-        
+
         if (connectionString == null)
             throw new InvalidOperationException("Setting SqlServer:ConnectionString is not set");
 
@@ -49,7 +49,7 @@ public static class Registrations
 
         // Add Eventuous on SQL Server
         services.AddSingleton(new SubscriptionSchemaInfo(subscriptionsSchema));
-        services.AddSingleton(new SubscriptionConnectionInfo(connectionString));
+        services.AddSingleton(new SubscriptionOptions() { ConnectionString = connectionString });
         services.AddEventuousSqlServer(connectionString, schema: aggregateStoreSchema, initializeDatabase: initializeDatabase.Value);
         services.AddAggregateStore<SqlServerStore>();
         services.AddSingleton(new SqlServerCheckpointStoreOptions { Schema = aggregateStoreSchema, ConnectionString = connectionString });
@@ -90,7 +90,8 @@ public static class Registrations
 
         services.AddOpenTelemetry()
             .WithMetrics(
-                builder => {
+                builder =>
+                {
                     builder
                         .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("bookings"))
                         .AddAspNetCoreInstrumentation()
@@ -103,7 +104,8 @@ public static class Registrations
 
         services.AddOpenTelemetry()
             .WithTracing(
-                builder => {
+                builder =>
+                {
                     builder
                         .AddAspNetCoreInstrumentation()
                         .AddGrpcClientInstrumentation()

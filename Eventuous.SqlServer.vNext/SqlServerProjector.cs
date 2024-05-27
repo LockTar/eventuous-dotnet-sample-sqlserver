@@ -1,6 +1,7 @@
 ﻿// Copyright (C) Ubiquitous AS.All rights reserved
 // Licensed under the Apache License, Version 2.0.
 
+using Eventuous.SqlServer.Subscriptions;
 using Eventuous.Subscriptions.Context;
 using Microsoft.Data.SqlClient;
 using System.Data;
@@ -10,10 +11,10 @@ namespace Eventuous.SqlServer.vNext;
 /// <summary>
 /// Base class for projectors that store read models in SQL Server.
 /// </summary>
-public abstract class SqlServerProjector(SubscriptionConnectionInfo connectionInfo, TypeMapper? mapper = null) : EventHandler(mapper)
-{
-    protected void On<T>(ProjectToSqlServer<T> handler) where T : class
-    {
+public abstract class SqlServerProjector(SqlServerSubscriptionBaseOptions options, TypeMapper? mapper = null) : EventHandler(mapper) {
+    string _connectionString = options.ConnectionString!;
+
+    protected void On<T>(ProjectToSqlServer<T> handler) where T : class {
         base.On<T>(async ctx => await Handle(ctx, GetCommand).ConfigureAwait(false));
 
         return;
@@ -30,15 +31,13 @@ public abstract class SqlServerProjector(SubscriptionConnectionInfo connectionIn
     protected void On<T>(ProjectToSqlServerAsync<T> handler) where T : class
         => base.On<T>(async ctx => await Handle(ctx, handler).ConfigureAwait(false));
 
-    async Task Handle<T>(MessageConsumeContext<T> context, ProjectToSqlServerAsync<T> handler) where T : class
-    {
-        await using var connection = await ConnectionFactory.GetConnection(connectionInfo.ConnectionString, context.CancellationToken);
+    async Task Handle<T>(MessageConsumeContext<T> context, ProjectToSqlServerAsync<T> handler) where T : class {
+        await using var connection = await ConnectionFactory.GetConnection(_connectionString, context.CancellationToken);
         var cmd = await handler(connection, context).ConfigureAwait(false);
         await cmd.ExecuteNonQueryAsync(context.CancellationToken).ConfigureAwait(false);
     }
 
-    protected static SqlCommand Project(SqlConnection connection, string commandText, params SqlParameter[] parameters)
-    {
+    protected static SqlCommand Project(SqlConnection connection, string commandText, params SqlParameter[] parameters) {
         var cmd = connection.CreateCommand();
         cmd.CommandText = commandText;
         cmd.Parameters.AddRange(parameters);

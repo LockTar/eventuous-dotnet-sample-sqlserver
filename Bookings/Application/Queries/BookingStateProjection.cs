@@ -11,7 +11,7 @@ namespace Bookings.Application.Queries;
 
 public class BookingStateProjection : SqlServerProjector
 {
-    public BookingStateProjection(SubscriptionConnectionInfo connectionInfo, SubscriptionSchemaInfo schemaInfo) : base(connectionInfo)
+    public BookingStateProjection(SubscriptionOptions options, SubscriptionSchemaInfo schemaInfo) : base(options)
     {
         var insertBooking = $"insert into {schemaInfo.Schema}.bookings (Id, GuestId, RoomId, CheckInDate, CheckOutDate, BookingPrice, PaidAmount, Outstanding, Paid) " +
             $"values (@booking_id, @guestId, @roomId, @checkInDate, @checkOutDate, @bookingPrice, @paidAmount, @outstanding, @paid)";
