@@ -1,5 +1,5 @@
 using Eventuous.SqlServer;
-using Eventuous.SqlServer.vNext;
+using Eventuous.SqlServer.Projections;
 using Eventuous.Subscriptions.Context;
 using Microsoft.Data.SqlClient;
 using System.Collections.Generic;

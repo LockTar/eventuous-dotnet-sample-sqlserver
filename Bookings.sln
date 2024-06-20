@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookings.Domain", "Bookings
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookings.Payments", "Bookings.Payments\Bookings.Payments.csproj", "{EBD8B561-B354-4FDB-BF88-0BF0681F5530}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eventuous.SqlServer.vNext", "Eventuous.SqlServer.vNext\Eventuous.SqlServer.vNext.csproj", "{DC322608-5A80-41DF-9906-E6730A44E604}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{EBD8B561-B354-4FDB-BF88-0BF0681F5530}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBD8B561-B354-4FDB-BF88-0BF0681F5530}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBD8B561-B354-4FDB-BF88-0BF0681F5530}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC322608-5A80-41DF-9906-E6730A44E604}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC322608-5A80-41DF-9906-E6730A44E604}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC322608-5A80-41DF-9906-E6730A44E604}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC322608-5A80-41DF-9906-E6730A44E604}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

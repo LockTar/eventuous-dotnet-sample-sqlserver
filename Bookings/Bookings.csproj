@@ -3,14 +3,14 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Eventuous.Diagnostics.OpenTelemetry" Version="$(EventuousVersion)" />
-        <PackageReference Include="Eventuous.Application" Version="$(EventuousVersion)" />
-        <PackageReference Include="Eventuous.AspNetCore.Web" Version="$(EventuousVersion)" />
-        <PackageReference Include="Eventuous.Extensions.DependencyInjection" Version="$(EventuousVersion)" />
-        <PackageReference Include="Eventuous.Shared" Version="$(EventuousVersion)" />
-        <PackageReference Include="Eventuous.RabbitMq" Version="$(EventuousVersion)" />
-        <PackageReference Include="Eventuous.Spyglass" Version="$(EventuousVersion)" />
-        <PackageReference Include="Eventuous.SqlServer" Version="$(EventuousVersion)" />
+        <PackageReference Include="Eventuous.Diagnostics.OpenTelemetry" Version="0.15.0-beta.10.26" />
+        <PackageReference Include="Eventuous.Application" Version="0.15.0-beta.10.26" />
+        <PackageReference Include="Eventuous.AspNetCore.Web" Version="0.15.0-beta.10.26" />
+        <PackageReference Include="Eventuous.Extensions.DependencyInjection" Version="0.15.0-beta.10.26" />
+        <PackageReference Include="Eventuous.Shared" Version="0.15.0-beta.10.26" />
+        <PackageReference Include="Eventuous.RabbitMq" Version="0.15.0-beta.10.26" />
+        <PackageReference Include="Eventuous.Spyglass" Version="0.15.0-beta.10.26" />
+        <PackageReference Include="Eventuous.SqlServer" Version="0.15.0-beta.10.26" />
         <PackageReference Include="MongoDb.Bson.NodaTime" Version="3.0.0" />
         <PackageReference Include="NodaTime.Serialization.SystemTextJson" Version="1.2.0" />
         <PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.4.0-rc.4" />
@@ -25,7 +25,6 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Bookings.Domain\Bookings.Domain.csproj" />
-        <ProjectReference Include="..\Eventuous.SqlServer.vNext\Eventuous.SqlServer.vNext.csproj" />
     </ItemGroup>
     <ItemGroup>
       <Content Update="Properties\launchSettings.json">

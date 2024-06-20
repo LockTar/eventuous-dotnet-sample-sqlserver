@@ -1,5 +1,5 @@
 using Eventuous.SqlServer;
-using Eventuous.SqlServer.vNext;
+using Eventuous.SqlServer.Projections;
 using static Bookings.Domain.Bookings.BookingEvents;
 
 namespace Bookings.Application.Queries;

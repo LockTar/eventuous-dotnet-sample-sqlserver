@@ -9,7 +9,6 @@ using Eventuous.Diagnostics.OpenTelemetry;
 using Eventuous.RabbitMq.Subscriptions;
 using Eventuous.SqlServer;
 using Eventuous.SqlServer.Subscriptions;
-using Eventuous.SqlServer.vNext;
 using NodaTime;
 using NodaTime.Serialization.SystemTextJson;
 using OpenTelemetry.Metrics;

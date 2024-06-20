@@ -2,7 +2,6 @@ using Bookings.Application.Queries;
 using Bookings.Domain.Bookings;
 using Eventuous;
 using Eventuous.SqlServer;
-using Eventuous.SqlServer.vNext;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using NodaTime;
@@ -12,14 +11,16 @@ namespace Bookings.HttpApi.Bookings;
 
 [Route("/bookings")]
 [ApiController]
-public class QueryApi : ControllerBase {
+public class QueryApi : ControllerBase
+{
     private readonly IAggregateStore _store;
-        
+
     public QueryApi(IAggregateStore store) => _store = store;
 
     [HttpGet]
     [Route("{id}")]
-    public async Task<BookingState> GetBooking(string id, CancellationToken cancellationToken) {
+    public async Task<BookingState> GetBooking(string id, CancellationToken cancellationToken)
+    {
         var booking = await _store.Load<Booking>(StreamName.For<Booking>(id), cancellationToken);
         return booking.State;
     }
@@ -83,7 +84,7 @@ public class ProjectionsQueryApi : ControllerBase
     public async Task<IActionResult> GetBooking(string id, CancellationToken cancellationToken)
     {
         await using var connection = await ConnectionFactory.GetConnection(_connectionString, cancellationToken);
-        
+
         var cmd = connection.CreateCommand();
         cmd.CommandText = $"SELECT * FROM {_schemaInfo.Schema}.bookings WHERE id = @booking_id;";
         cmd.Parameters.Add(new SqlParameter("@booking_id", id));
