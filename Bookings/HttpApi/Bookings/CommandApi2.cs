@@ -3,6 +3,8 @@ using Bookings.Domain.Bookings;
 using Eventuous;
 using Eventuous.AspNetCore.Web;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Net;
 using static Bookings.Application.BookingCommands;
 
 namespace Bookings.HttpApi.Bookings;
@@ -18,6 +20,8 @@ public class CommandApi2 : CommandHttpApiBase<Booking, BookingResult>
 
     [HttpPost]
     [Route("book")]
+    [SwaggerResponse((int)HttpStatusCode.OK, "OK", typeof(MyCustomBookingResult))]
+    [SwaggerResponse((int)HttpStatusCode.BadRequest, "Bad Request", typeof(ValidationProblemDetails))]
     public async Task<ActionResult<MyCustomBookingResult>> BookRoom([FromBody] BookRoom cmd, CancellationToken cancellationToken)
     {
         var result = await Handle(cmd, cancellationToken);
@@ -32,10 +36,10 @@ public class CommandApi2 : CommandHttpApiBase<Booking, BookingResult>
             {
                 GuestId = bookingResult.State!.GuestId,
                 RoomId = bookingResult.State!.RoomId,
-                Period = bookingResult.State!.Period,
-                CustomProperty1 = "Some custom property",
-                CustomProperty2 = "Another custom property",
-                CustomProperty3 = "Yet another custom property"
+                
+                CustomPropertyA = "Some custom property",
+                CustomPropertyB = "Another custom property",
+                CustomPropertyC = "Yet another custom property"
             });
         }
     }
@@ -50,9 +54,8 @@ public record MyCustomBookingResult
 {
     public string GuestId { get; init; } = null!;
     public RoomId RoomId { get; init; } = null!;
-    public StayPeriod Period { get; init; } = null!;
 
-    public string? CustomProperty1 { get; init; }
-    public string? CustomProperty2 { get; init; }
-    public string? CustomProperty3 { get; init; }
+    public string? CustomPropertyA { get; init; }
+    public string? CustomPropertyB { get; init; }
+    public string? CustomPropertyC { get; init; }
 }
