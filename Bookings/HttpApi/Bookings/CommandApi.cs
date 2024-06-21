@@ -8,12 +8,11 @@ using static Bookings.Application.BookingCommands;
 namespace Bookings.HttpApi.Bookings;
 
 [Route("/booking")]
-public class CommandApi : CommandHttpApiBase<Booking> {
-    public CommandApi(ICommandService<Booking> service) : base(service) { }
-
+public class CommandApi(ICommandService<BookingState> service) : CommandHttpApiBase<BookingState>(service)
+{
     [HttpPost]
     [Route("book")]
-    public Task<ActionResult<Result>> BookRoom([FromBody] BookRoom cmd, CancellationToken cancellationToken)
+    public Task<ActionResult<Result<BookingState>>> BookRoom([FromBody] BookRoom cmd, CancellationToken cancellationToken)
         => Handle(cmd, cancellationToken);
 
     /// <summary>
@@ -26,8 +25,6 @@ public class CommandApi : CommandHttpApiBase<Booking> {
     /// <returns></returns>
     [HttpPost]
     [Route("recordPayment")]
-    public Task<ActionResult<Result>> RecordPayment(
-        [FromBody] RecordPayment cmd, CancellationToken cancellationToken
-    )
+    public Task<ActionResult<Result<BookingState>>> RecordPayment([FromBody] RecordPayment cmd, CancellationToken cancellationToken)
         => Handle(cmd, cancellationToken);
 }

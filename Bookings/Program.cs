@@ -1,50 +1,42 @@
 using Bookings;
 using Bookings.Domain.Bookings;
+using Bookings.Infrastructure;
 using Eventuous;
 using Eventuous.AspNetCore;
 using Eventuous.Diagnostics.Logging;
 using Eventuous.Spyglass;
+using Eventuous.SqlServer;
 using Microsoft.AspNetCore.Http.Json;
+using Microsoft.Extensions.Configuration;
 using NodaTime;
 using NodaTime.Serialization.SystemTextJson;
 using Serilog;
 using Serilog.Events;
 
 TypeMap.RegisterKnownEventTypes(typeof(BookingEvents.V1.RoomBooked).Assembly);
-
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Verbose()
-    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-    .MinimumLevel.Override("Grpc", LogEventLevel.Information)
-    .MinimumLevel.Override("Grpc.Net.Client.Internal.GrpcCall", LogEventLevel.Error)
-    .MinimumLevel.Override("Microsoft.AspNetCore.Mvc.Infrastructure", LogEventLevel.Warning)
-    .Enrich.FromLogContext()
-    .WriteTo.Console()
-    .WriteTo.Seq("http://localhost:5341")
-    .CreateLogger();
+Logging.ConfigureLog();
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.SetMinimumLevel(LogLevel.Trace).AddConsole();
 builder.Host.UseSerilog();
 
-// Add services to the container.
 builder.Services
     .AddControllers()
     .AddJsonOptions(cfg => cfg.JsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb));
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTelemetry();
 builder.Services.AddEventuous(builder.Configuration);
-builder.Services.AddEventuousSpyglass();
-
-builder.Services.Configure<JsonOptions>(options
-    => options.SerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb)
-);
 
 var app = builder.Build();
 
+if (app.Configuration.GetValue<bool>("SqlServer:InitializeDatabase"))
+{
+    await InitialiseSchema(app);
+}
+
 app.UseSerilogRequestLogging();
+app.UseEventuousLogs();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -54,15 +46,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 app.UseOpenTelemetryPrometheusScrapingEndpoint();
-//app.MapEventuousSpyglass(null);
-
-var factory = app.Services.GetRequiredService<ILoggerFactory>();
-//var listener = new LoggingEventListener(factory, "OpenTelemetry");
 
 try
 {
@@ -78,5 +64,17 @@ catch (Exception e)
 finally
 {
     Log.CloseAndFlush();
-    //listener.Dispose();
+}
+
+async Task InitialiseSchema(WebApplication app)
+{
+    var store = app.Services.GetRequiredService<SqlServerStore>();
+    var schema = store.Schema;
+
+    string? connectionString = app.Configuration.GetValue<string>("SqlServer:ConnectionString");
+
+    if (connectionString == null)
+        throw new InvalidOperationException("Setting SqlServer:ConnectionString is not set");
+
+    await schema.CreateSchema(connectionString, app.Services.GetRequiredService<ILogger<Schema>>(), default);
 }

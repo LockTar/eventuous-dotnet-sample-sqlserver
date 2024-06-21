@@ -6,12 +6,14 @@ using EventHandler = Eventuous.Subscriptions.EventHandler;
 
 namespace Bookings.Integration;
 
-public class PaymentsIntegrationHandler : EventHandler {
-    public static readonly StreamName Stream = new("PaymentsIntegration");
+public class PaymentsIntegrationHandler : EventHandler
+{
+    public const string Stream = "PaymentsIntegration";
 
-    readonly ICommandService<Booking> _applicationService;
+    readonly ICommandService<BookingState> _applicationService;
 
-    public PaymentsIntegrationHandler(ICommandService<Booking> applicationService) {
+    public PaymentsIntegrationHandler(ICommandService<BookingState> applicationService)
+    {
         _applicationService = applicationService;
         On<BookingPaymentRecorded>(async ctx => await HandlePayment(ctx.Message, ctx.CancellationToken));
     }
@@ -29,7 +31,8 @@ public class PaymentsIntegrationHandler : EventHandler {
         );
 }
 
-static class IntegrationEvents {
+static class IntegrationEvents
+{
     [EventType("BookingPaymentRecorded")]
     public record BookingPaymentRecorded(string PaymentId, string BookingId, float Amount, string Currency);
 }

@@ -3,27 +3,28 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Eventuous.Diagnostics.OpenTelemetry" Version="0.15.0-beta.10.26" />
-        <PackageReference Include="Eventuous.Application" Version="0.15.0-beta.10.26" />
-        <PackageReference Include="Eventuous.AspNetCore.Web" Version="0.15.0-beta.10.26" />
-        <PackageReference Include="Eventuous.Extensions.DependencyInjection" Version="0.15.0-beta.10.26" />
-        <PackageReference Include="Eventuous.Shared" Version="0.15.0-beta.10.26" />
-        <PackageReference Include="Eventuous.RabbitMq" Version="0.15.0-beta.10.26" />
-        <PackageReference Include="Eventuous.Spyglass" Version="0.15.0-beta.10.26" />
-        <PackageReference Include="Eventuous.SqlServer" Version="0.15.0-beta.10.26" />
+        <PackageReference Include="Eventuous.Diagnostics.OpenTelemetry" Version="0.15.0-beta.10.31" />
+        <PackageReference Include="Eventuous.Application" Version="0.15.0-beta.10.31" />
+        <PackageReference Include="Eventuous.AspNetCore.Web" Version="0.15.0-beta.10.31" />
+        <PackageReference Include="Eventuous.Extensions.DependencyInjection" Version="0.15.0-beta.10.31" />
+        <PackageReference Include="Eventuous.Shared" Version="0.15.0-beta.10.31" />
+        <PackageReference Include="Eventuous.RabbitMq" Version="0.15.0-beta.10.31" />
+        <PackageReference Include="Eventuous.Spyglass" Version="0.15.0-beta.10.31" />
+        <PackageReference Include="Eventuous.SqlServer" Version="0.15.0-beta.10.31" />
         <PackageReference Include="FluentValidation" Version="11.9.2" />
         <PackageReference Include="MongoDb.Bson.NodaTime" Version="3.0.0" />
         <PackageReference Include="NodaTime.Serialization.SystemTextJson" Version="1.2.0" />
-        <PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.4.0-rc.4" />
-        <PackageReference Include="OpenTelemetry.Exporter.Zipkin" Version="1.4.0" />
-        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.4.0" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.8.1" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.GrpcNetClient" Version="1.0.0-rc9.14" />
-        <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
-        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
-        <PackageReference Include="Serilog.Sinks.Seq" Version="5.2.2" />
+        <PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.9.0-beta.1" />
+        <PackageReference Include="OpenTelemetry.Exporter.Zipkin" Version="1.9.0" />
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.9.0" />
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.9.0" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.9.0" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.GrpcNetClient" Version="1.9.0-beta.1" />
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+        <PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.6.2" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Bookings.Domain\Bookings.Domain.csproj" />
